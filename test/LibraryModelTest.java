@@ -14,7 +14,6 @@ class LibraryModelTest {
         LibraryModel library = new LibraryModel();
         MusicStore store = new MusicStore("resources/albums/albums.txt"); // Assuming files exist
         Song song = new Song("Blinding Lights", "The Weeknd", "After Hours");
-
         assertFalse(library.addSong(song, store)); // Should fail if song isn't in store
     }
 
@@ -32,4 +31,12 @@ class LibraryModelTest {
         Song song = new Song("Save Your Tears", "The Weeknd", "After Hours");
         assertFalse(library.addSongToPlaylist("Chill Hits", song)); // Song must be in library first
     }
+
+    @Test
+    void testAddFavorite(){
+        LibraryModel library = new LibraryModel();
+        Song song = new Song("Save Your Tears", "The Weeknd", "After Hours");
+        assertTrue(library.addFavorite(song));
+    }
+
 }
