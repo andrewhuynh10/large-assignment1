@@ -66,6 +66,19 @@ public class LibraryModel {
         return playlist != null && playlist.removeSong(song);
     }
 
+    // Checks to see if there is a favorite playlist, 
+    // if its not then creates a new playlist and adds that song, else just adds song to fav playlist
+    public boolean addFavorite(Song song){
+        if (playlists.containsKey("Favorite") == false){
+            createPlaylist("Favorite");
+            addSongToPlaylist("Favorite", song);
+            return true;
+        } else {
+            addSongToPlaylist("Favorite", song);
+            return true;
+        }
+    }
+
     // Basic getters
     public Set<Song> getSong(){
         return Collections.unmodifiableSet(songs);
