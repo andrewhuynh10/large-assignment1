@@ -38,7 +38,7 @@ public class MusicStore {
     // fills out album dets from the text file
     public void albumDetails(String title, String artist){
         // Had to look up how to implemets file paths in java, since never did before!
-        String file = "resources/albums" + title + "_" + artist + ".txt";
+        String file = "resources/albums/" + title + "_" + artist + ".txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String info = reader.readLine();
@@ -52,7 +52,7 @@ public class MusicStore {
                 return;
             }
             String genre = classifications[2].trim();
-            int year = classifications[3].trim();
+            int year = Integer.parseInt(classifications[3].trim());
             Album album = new Album(title, artist, genre, year);
             String str;
             while ((str = reader.readLine()) != null){
