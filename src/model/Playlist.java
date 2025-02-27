@@ -29,8 +29,4 @@ public class Playlist {
         return Collections.unmodifiableList(songs);
     }
 
-    @Override
-    public String toString(){
-        return "Playlist: " + name + "\n Songs:" + songs;
-    }
 }

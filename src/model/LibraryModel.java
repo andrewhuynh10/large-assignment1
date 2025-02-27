@@ -10,6 +10,8 @@ package model;
 
 import java.util.*;
 
+import store.MusicStore;
+
 public class LibraryModel {
     private Set<Song> songs; //User song collection
     private Set<Album> albums; // User album collection

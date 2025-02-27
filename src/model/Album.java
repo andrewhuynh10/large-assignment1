@@ -19,6 +19,14 @@ public class Album{
         this.year = year;
         this.songs = new ArrayList<>();
     }
+    
+    public void addSong(Song song) {
+        if (song.getAlbum().equals(this.title) && song.getArtist().equals(this.artist)) {
+            songs.add(song);
+        } else {
+            throw new IllegalArgumentException("Song does not belong to this album.");
+        }
+    }
 
     public String getTitle(){
         return title;
