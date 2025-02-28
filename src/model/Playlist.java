@@ -28,5 +28,4 @@ public class Playlist {
     public List<Song> getSongs(){
         return Collections.unmodifiableList(songs);
     }
-
 }
