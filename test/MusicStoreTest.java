@@ -8,6 +8,7 @@ import store.MusicStore;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,7 +34,7 @@ class MusicStoreTest {
         // Load the test files
         store = new MusicStore("resources/albums/test_albums.txt");
     }
-
+    
     @Test
     void testLoadMusicStore() {
         assertTrue(store.containsAlbum("Test Album", "Test Artist"));
@@ -79,5 +80,34 @@ class MusicStoreTest {
     @Test
     void testLoadMissingAlbumFile() {
         assertNull(store.getAlbum("Missing Album", "Missing Artist"));
+    }
+    
+    @Test
+    void testSearchSongsByTitle() {
+    	MusicStore store = new MusicStore("resources/albums/albums.txt");
+        List<Song> results = store.searchSong("Make You Feel My Love");
+        assertFalse(results.isEmpty());
+    }
+
+    @Test
+    void testSearchSongsByArtist() {
+    	MusicStore store = new MusicStore("resources/albums/albums.txt");
+        List<Song> results = store.searchArtistSongs("Adele");
+        assertFalse(results.isEmpty());
+    }
+
+    @Test
+    void testSearchAlbumByTitle() {
+    	MusicStore store = new MusicStore("resources/albums/albums.txt");
+        Album album = store.searchAlbum("21");
+        assertNotNull(album);
+        assertEquals("21", album.getTitle());
+    }
+
+    @Test
+    void testSearchAlbumsByArtist() {
+    	MusicStore store = new MusicStore("resources/albums/albums.txt");
+        List<Album> results = store.searchArtistAlbums("Adele");
+        assertFalse(results.isEmpty());
     }
 }

@@ -35,7 +35,7 @@ public class MusicStore {
     }
     
     
-    // fills out album dets from the text file
+    // Fills out album dets from the text file
     public void albumDetails(String title, String artist){
         // Had to look up how to implemets file paths in java, since never did before!
         String file = "resources/albums/" + title + "_" + artist + ".txt";
@@ -77,13 +77,57 @@ public class MusicStore {
     public boolean containsAlbum(String title, String artist){
         return albums.containsKey(title + "_" + artist);
     }
+
+    // Search User Library for song
+    public List<Song> searchSong(String song){
+        List<Song> userSongs = new ArrayList<>();
+        for (Song title : songs.values()){
+            if (title.getTitle().equalsIgnoreCase(song)){
+                userSongs.add(title);
+            }
+        }
+        return userSongs;
+    }
+
+    // Search store for album
+    public Album searchAlbum(String album){
+        for (Album title : albums.values()){
+            if (title.getTitle().equalsIgnoreCase(album)){
+                return title;
+            }
+        }
+        // Album not found
+        return null;
+    }
+
+    // Search store for songs from artist
+    public List<Song> searchArtistSongs(String artist){
+        List<Song> artistSongs = new ArrayList<>();
+        for (Song song : songs.values()){
+            if (song.getArtist().equalsIgnoreCase(artist.trim())){
+                artistSongs.add(song);
+            }
+        }
+        return artistSongs;
+    }
+
+    // Search store for albums from artists
+    public List<Album> searchArtistAlbums(String artist){
+        List<Album> artistAlbums = new ArrayList<>();
+        for (Album album : albums.values()){
+            if (album.getArtist().equalsIgnoreCase(artist)){
+                artistAlbums.add(album);
+            }
+        }
+        return artistAlbums;
+    }
     
-    // Gets a song
+    // Gets a song from store
     public Song getSong(String title, String artist) {
         return songs.get(title + "_" + artist);
     }
 
-    // Gets an album
+    // Gets an album from store
     public Album getAlbum(String title, String artist) {
         return albums.get(title + "_" + artist);
     }

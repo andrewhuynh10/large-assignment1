@@ -17,6 +17,11 @@ public class LibraryModel {
     private Set<Album> albums; // User album collection
     private Map<String, Playlist> playlists; // User playlists
 
+    /*
+     * ------------------------------------------------------------------------------------------------
+     * This Section is all the creation esc functions
+     */
+
     public LibraryModel(){
         this.songs = new HashSet<>();
         this.albums = new HashSet<>();
@@ -36,7 +41,14 @@ public class LibraryModel {
     // Adds album to user library
     public boolean addAlbum(Album album, MusicStore store){
         if (store.containsAlbum(album.getTitle(), album.getArtist())){
-            return albums.add(album);
+            boolean albumAdd = albums.add(album);
+            boolean songAdd = false;
+            for (Song song : album.getSongs()) {
+            	if (songs.add(song)) {
+            		songAdd = true;
+            	}
+            }
+            return albumAdd || songAdd;
         }
         return false;
     }
@@ -60,26 +72,152 @@ public class LibraryModel {
         }
         return false;
     }
+
     // Remove song from playlist
     public boolean removeSongFromPlaylist(String name, Song song){
         Playlist playlist = playlists.get(name);
-        return playlist != null && playlist.removeSong(song);
+        return playlist.removeSong(song);
     }
 
     // Checks to see if there is a favorite playlist, 
     // if its not then creates a new playlist and adds that song, else just adds song to fav playlist
-    public boolean addFavorite(Song song){
-        if (playlists.containsKey("Favorite") == false){
-            createPlaylist("Favorite");
-            addSongToPlaylist("Favorite", song);
-            return true;
-        } else {
-            addSongToPlaylist("Favorite", song);
+    //public boolean addFavorite(Song song){
+    //    if (playlists.containsKey("Favorite") == false){
+    //        createPlaylist("Favorite");
+    //        addSongToPlaylist("Favorite", song);
+    //        return true;
+    //    } else {
+    //        addSongToPlaylist("Favorite", song);
+    //        return true;
+    //    }
+    //}
+
+    public boolean makeFavorite(Song song){
+        if (songs.contains(song)){
+            song.setRating(Rating.FIVE);
             return true;
         }
+        return false;
     }
 
-    // Basic getters
+    public boolean rateSong(Song song, Rating rating){
+        if (songs.contains(song)){
+            song.setRating(rating);
+            return true;
+        }
+        return false;
+    }
+
+    // ------------------------------------------------------------------------------------------------
+
+    /*
+     * ------------------------------------------------------------------------------------------------
+     * This Section is all the seaching functions
+     */
+
+    // Search User Library for song
+    public List<Song> searchSong(String song){
+        List<Song> userSongs = new ArrayList<>();
+        for (Song title : songs){
+            if (title.getTitle().equalsIgnoreCase(song)){
+                userSongs.add(title);
+            }
+        }
+        return userSongs;
+    }
+
+    // Search User Library for album
+    public Album searchAlbum(String album){
+        for (Album title : albums){
+            if (title.getTitle().equalsIgnoreCase(album)){
+                return title;
+            }
+        }
+        // Album not found
+        return null;
+    }
+
+    // Search User Library for songs from artist
+    public List<Song> searchArtistSongs(String artist){
+        List<Song> artistSongs = new ArrayList<>();
+        for (Song song : songs){
+            if (song.getArtist().equalsIgnoreCase(artist)){
+                artistSongs.add(song);
+            }
+        }
+        return artistSongs;
+    }
+
+    // Search User Library for albums from artists
+    public List<Album> searchArtistAlbums(String artist){
+        List<Album> artistAlbums = new ArrayList<>();
+        for (Album album : albums){
+            if (album.getArtist().equalsIgnoreCase(artist)){
+                artistAlbums.add(album);
+            }
+        }
+        return artistAlbums;
+    }
+
+    // Search for User playlist
+    public Playlist searchPlaylist(String name){
+        return playlists.get(name);
+    }
+
+    // ------------------------------------------------------------------------------------------------
+
+
+    /*
+     * ------------------------------------------------------------------------------------------------
+     * This Section is all the listing functions
+     */    
+
+    // List all songs in user library
+    public List<String> listSongs(){
+        List<String> userSongs = new ArrayList<>();
+        for (Song song : songs){
+            userSongs.add(song.getTitle());
+        } 
+        return userSongs;
+    }
+    // List all albums in user library
+    public List<String> listAlbums(){
+        List<String> userAlbums = new ArrayList<>();
+        for (Album album : albums){
+            userAlbums.add(album.getTitle());
+        } 
+        return userAlbums;
+    }
+
+    // List all artist in user library
+    public Set<String> listArtists(){
+        Set<String> userArtists = new HashSet<>();
+        for (Song song : songs){
+            userArtists.add(song.getArtist());
+        }
+        return userArtists;
+    }
+
+    // Lists all playlists
+    public Set<String> listPlaylist(){
+        return playlists.keySet();
+    }
+
+    // Lists favorite songs
+    public List<Song> listFavorite(){
+        List<Song> favs = new ArrayList<>();
+        for (Song song : songs){
+            if (song.getRating() == Rating.FIVE){
+                favs.add(song);
+            }
+        }
+        return favs;
+    }
+
+    // ------------------------------------------------------------------------------------------------
+    
+    
+    // Basic getters section
     public Set<Song> getSong(){
         return Collections.unmodifiableSet(songs);
     }
