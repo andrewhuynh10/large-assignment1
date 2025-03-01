@@ -80,13 +80,18 @@ class LibraryModelTest {
     
     @Test
     void testSearchSong() {
-    	LibraryModel library = new LibraryModel();
-    	MusicStore store = new MusicStore("resources/albums/albums.txt");
-    	Song song = new Song("Daydreamer", "Adele", "19");
-    	library.addSong(song, store);
-    	assertEquals(1, library.searchSong("Daydreamer").size());
-        assertTrue(library.searchSong("Nonexistent Song").isEmpty());
+        LibraryModel library = new LibraryModel();
+        MusicStore store = new MusicStore("resources/albums/albums.txt");
+        Song song = new Song("Daydreamer", "Adele", "19");
+
+        library.addSong(song, store);
+
+        assertNotNull(library.searchSong("Daydreamer"));
+        assertEquals("Daydreamer", library.searchSong("Daydreamer").getTitle());
+
+        assertNull(library.searchSong("Nonexistent Song"));
     }
+
     
     @Test
     void testSearchAlbum() {
