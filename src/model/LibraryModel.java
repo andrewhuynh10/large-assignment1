@@ -116,14 +116,13 @@ public class LibraryModel {
      */
 
     // Search User Library for song
-    public List<Song> searchSong(String song){
-        List<Song> userSongs = new ArrayList<>();
-        for (Song title : songs){
-            if (title.getTitle().equalsIgnoreCase(song)){
-                userSongs.add(title);
+    public Song searchSong(String songTitle) {
+        for (Song song : songs) {
+            if (song.getTitle().equalsIgnoreCase(songTitle)) {
+                return song; // Return the first match found
             }
         }
-        return userSongs;
+        return null; // Return null if no match is found
     }
 
     // Search User Library for album
