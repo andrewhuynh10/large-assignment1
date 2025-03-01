@@ -30,12 +30,14 @@ public class UserInterface {
             System.out.println("4. Add Album to Library");
             System.out.println("5. Create Playlist");
             System.out.println("6. Add Song to Playlist");
-            System.out.println("7. List Favorite Songs");
-            System.out.println("8. Rate a Song");
-            System.out.println("9. Mark Song as Favorite");
-            System.out.println("10. Exit");
-            System.out.println("11. List Songs in Library");
-            System.out.println("12. List Playlists");
+            System.out.println("7. Rate a Song");
+            System.out.println("8. Mark Song as Favorite");
+            System.out.println("9. List Favorite Songs");
+            System.out.println("10. List Songs in Library");
+            System.out.println("11. List Playlists");
+            System.out.println("12. List Album from Library");
+            System.out.println("13. List Artists in Library");
+            System.out.println("14. Exit");
             System.out.print("Enter choice: ");
             
             int choice = scanner.nextInt();
@@ -61,23 +63,29 @@ public class UserInterface {
                     addSongToPlaylist();
                     break;
                 case 7:
-                    listFavoriteSongs();
+                	rateSong();
                     break;
                 case 8:
-                    rateSong();
-                    break;
-                case 9:
                     markSongAsFavorite();
                     break;
+                case 9:
+                	listFavoriteSongs();
+                    break;
                 case 10:
-                    System.out.println("Exiting...");
-                    return;
-                case 11:
                 	listSongs();
                 	break;
-                case 12:
+                case 11:
                 	viewPlaylists();
                 	break;
+                case 12:
+                    listAlbums();
+                    break;
+                case 13:
+                    listArtists();
+                    break;
+                case 14:
+                    System.out.println("Exiting...");
+                    return;
                 default:
                     System.out.println("Invalid choice. Try again.");            }
         }
@@ -282,6 +290,30 @@ public class UserInterface {
             System.out.println("Your playlists:");
             for (String name : playlists) {
                 System.out.println( name);
+            }
+        }
+    }
+    
+    private void listAlbums() {
+        List<String> albums = library.listAlbums();
+        if (albums.isEmpty()) {
+            System.out.println("Your library has no albums.");
+        } else {
+            System.out.println("Albums in your library:");
+            for (String album : albums) {
+                System.out.println("   🎵 " + album);
+            }
+        }
+    }
+    
+    private void listArtists() {
+        Set<String> artists = library.listArtists();
+        if (artists.isEmpty()) {
+            System.out.println("Your library has no artists.");
+        } else {
+            System.out.println("Artists in your library:");
+            for (String artist : artists) {
+                System.out.println("   🎤 " + artist);
             }
         }
     }
